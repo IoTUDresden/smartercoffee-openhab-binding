@@ -5,7 +5,7 @@
 				 xsi:schemaLocation="http://eclipse.org/smarthome/schemas/binding/v1.0.0 http://eclipse.org/smarthome/schemas/binding-1.0.0.xsd">
 
 	<name>SmarterCoffee Binding</name>
-	<description>This is the binding for SmarterCoffee.</description>
+	<description>This is the binding for SmarterCoffee</description>
 	<author>Nikson Kanti Paul</author>
 
 </binding:binding>

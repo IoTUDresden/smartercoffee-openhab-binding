@@ -8,16 +8,16 @@
  */
 package org.openhab.binding.smartercoffee.internal;
 
-import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.*;
+import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.THING_TYPE_SMARTERCOFFEE_MACHINE;
 
 import java.util.Collections;
 import java.util.Set;
 
-import org.openhab.binding.smartercoffee.handler.SmarterCoffeeHandler;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandlerFactory;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
+import org.openhab.binding.smartercoffee.handler.SmarterCoffeeHandler;
 
 /**
  * The {@link SmarterCoffeeHandlerFactory} is responsible for creating things and thing
@@ -27,7 +27,8 @@ import org.eclipse.smarthome.core.thing.binding.ThingHandler;
  */
 public class SmarterCoffeeHandlerFactory extends BaseThingHandlerFactory {
 
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.singleton(THING_TYPE_SAMPLE);
+    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections
+            .singleton(THING_TYPE_SMARTERCOFFEE_MACHINE);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -38,7 +39,7 @@ public class SmarterCoffeeHandlerFactory extends BaseThingHandlerFactory {
     protected ThingHandler createHandler(Thing thing) {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
 
-        if (thingTypeUID.equals(THING_TYPE_SAMPLE)) {
+        if (thingTypeUID.equals(THING_TYPE_SMARTERCOFFEE_MACHINE)) {
             return new SmarterCoffeeHandler(thing);
         }
 

@@ -8,13 +8,14 @@
  */
 package org.openhab.binding.smartercoffee.handler;
 
-import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.*;
+import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.CHANNEL_SMARTER_MACHINE_STATUS;
 
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.RefreshType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,16 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
-        if (channelUID.getId().equals(CHANNEL_1)) {
+
+        if (RefreshType.REFRESH == command) {
+            logger.debug("Refreshing {}", channelUID);
+            return;
+        }
+
+        if (channelUID.getId().equals(CHANNEL_SMARTER_MACHINE_STATUS)) {
             // TODO: handle command
+
+            updateStatus(ThingStatus.OFFLINE);
 
             // Note: if communication with thing fails for some reason,
             // indicate that by setting the status with detail information
@@ -46,9 +55,14 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
     @Override
     public void initialize() {
+        logger.debug("Initializing thing {}", getThing().getUID());
+        super.initialize();
+        // updateStatus(ThingStatus.INITIALIZING);
+
         // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
         // Long running initialization should be done asynchronously in background.
-        updateStatus(ThingStatus.ONLINE);
+        // ToDo: my connect here @nikson
+        // updateStatus(ThingStatus.ONLINE);
 
         // Note: When initialization can NOT be done set the status with more details for further
         // analysis. See also class ThingStatusDetail for all available status details.
@@ -56,5 +70,17 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
         // as expected. E.g.
         // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
         // "Can not access device as username and/or password are invalid");
+
+        updateStatus(ThingStatus.ONLINE);
+        logger.debug("Thing {} initialized {}", getThing().getUID(), getThing().getStatus());
+    }
+
+    @Override
+    public void dispose() {
+        logger.debug("Thing {} disposed", getThing().getUID());
+    }
+
+    private void checkStatus() {
+
     }
 }

@@ -4,21 +4,31 @@
 						  xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
 						  xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
 
-	<!-- Sample Thing Type -->
-	<thing-type id="sample">
-		<label>SmarterCoffee Binding Thing</label>
-		<description>Sample thing for SmarterCoffee Binding</description>
+	<!-- SmarterCoffee -->
+	<thing-type id="coffeemachine">
+		<label>SmarterCoffee Machine</label>
+		<description>Thing for SmarterCoffee appliances </description>
 
 		<channels>
-			<channel id="channel1" typeId="sample-channel"/>
+			<channel id="status" typeId="status"/>
 		</channels>
+		
+		<config-description>
+			<parameter name="host" type="text" required="true">
+				<label>Machine Host</label>
+				<description>The host address for the machine</description>
+				<default>192.168.1.4</default>
+			</parameter>
+		</config-description>
+		
 	</thing-type>
 
-	<!-- Sample Channel Type -->
-	<channel-type id="sample-channel">
-		<item-type>smartercoffeeItem</item-type>
-		<label>SmarterCoffee Binding Channel</label>
-		<description>Sample channel for SmarterCoffee Binding</description>
+	<!-- Channel Types -->
+	<channel-type id="status">
+		<item-type>String</item-type>
+		<label>Machine status</label>
+		<description>Channel for SmarterCoffee machine status</description>		
+		<state readOnly="true"  />
 	</channel-type>
 
 </thing:thing-descriptions>

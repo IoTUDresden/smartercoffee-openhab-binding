@@ -18,4 +18,13 @@ SmarterCoffee OpenHAB Binding
 
 Or you can import the folder into workspace using eclipse
 
+3. Add the binding in *feature.xml* (`<openhab2-workspace>/git/openhab2-addons/addons/features/openhab-addons/src/main/feature/feature.xml`)
+
+```xml
+	<feature name="openhab-binding-smartercoffee" description="SmarterCoffee Machine Binding" version="${project.version}">
+		<feature>openhab-runtime-base</feature>
+		<bundle start-level="80">mvn:org.openhab.binding/org.openhab.binding.smartercoffee/${project.version}</bundle>
+	</feature>
+```
+
 
