@@ -8,14 +8,16 @@
  */
 package org.openhab.binding.smartercoffee.handler;
 
-import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.CHANNEL_SMARTER_MACHINE_STATUS;
+import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.CHANNEL_MACHINE_STATUS;
 
+import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
+import org.openhab.binding.smartercoffee.internal.IBrewCommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,49 +31,27 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
     private final Logger logger = LoggerFactory.getLogger(SmarterCoffeeHandler.class);
 
+    // ibrew command interpreter and executor
+    private IBrewCommandExecutor ibrew;
+
     public SmarterCoffeeHandler(Thing thing) {
         super(thing);
     }
 
-    @Override
-    public void handleCommand(ChannelUID channelUID, Command command) {
+    public SmarterCoffeeHandler(Thing thing, String host, Integer port) {
+        super(thing);
 
-        if (RefreshType.REFRESH == command) {
-            logger.debug("Refreshing {}", channelUID);
-            return;
-        }
-
-        if (channelUID.getId().equals(CHANNEL_SMARTER_MACHINE_STATUS)) {
-            // TODO: handle command
-
-            updateStatus(ThingStatus.OFFLINE);
-
-            // Note: if communication with thing fails for some reason,
-            // indicate that by setting the status with detail information
-            // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-            // "Could not control device at IP address x.x.x.x");
-        }
+        ibrew = new IBrewCommandExecutor(host, port);
     }
 
     @Override
     public void initialize() {
         logger.debug("Initializing thing {}", getThing().getUID());
         super.initialize();
-        // updateStatus(ThingStatus.INITIALIZING);
-
-        // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
-        // Long running initialization should be done asynchronously in background.
-        // ToDo: my connect here @nikson
-        // updateStatus(ThingStatus.ONLINE);
-
-        // Note: When initialization can NOT be done set the status with more details for further
-        // analysis. See also class ThingStatusDetail for all available status details.
-        // Add a description to give user information to understand why thing does not work
-        // as expected. E.g.
-        // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-        // "Can not access device as username and/or password are invalid");
 
         updateStatus(ThingStatus.ONLINE);
+        checkStatus();
+
         logger.debug("Thing {} initialized {}", getThing().getUID(), getThing().getStatus());
     }
 
@@ -80,7 +60,23 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
         logger.debug("Thing {} disposed", getThing().getUID());
     }
 
-    private void checkStatus() {
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
 
+        if (RefreshType.REFRESH == command) {
+            return;
+        }
+
+        if (channelUID.getId().equals(CHANNEL_MACHINE_STATUS)) {
+            checkStatus();
+        }
+    }
+
+    private void checkStatus() {
+        if (ibrew.getStatus().isStatus()) {
+            updateState(CHANNEL_MACHINE_STATUS, new StringType("ONLINE"));
+        } else {
+            updateState(CHANNEL_MACHINE_STATUS, new StringType("OFFLINE"));
+        }
     }
 }

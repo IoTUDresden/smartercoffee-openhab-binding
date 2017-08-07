@@ -8,10 +8,9 @@
  */
 package org.openhab.binding.smartercoffee.internal;
 
-import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.THING_TYPE_SMARTERCOFFEE_MACHINE;
+import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.*;
 
-import java.util.Collections;
-import java.util.Set;
+import java.math.BigDecimal;
 
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
@@ -27,9 +26,6 @@ import org.openhab.binding.smartercoffee.handler.SmarterCoffeeHandler;
  */
 public class SmarterCoffeeHandlerFactory extends BaseThingHandlerFactory {
 
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections
-            .singleton(THING_TYPE_SMARTERCOFFEE_MACHINE);
-
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
         return SUPPORTED_THING_TYPES_UIDS.contains(thingTypeUID);
@@ -40,7 +36,10 @@ public class SmarterCoffeeHandlerFactory extends BaseThingHandlerFactory {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
 
         if (thingTypeUID.equals(THING_TYPE_SMARTERCOFFEE_MACHINE)) {
-            return new SmarterCoffeeHandler(thing);
+            String host = (String) thing.getConfiguration().get(CONFIG_PARAMETER_HOST);
+            BigDecimal port = (BigDecimal) thing.getConfiguration().get(CONFIG_PARAMETER_PORT);
+
+            return new SmarterCoffeeHandler(thing, host, port.intValue());
         }
 
         return null;

@@ -27,10 +27,13 @@ public class SmarterCoffeeBindingConstants {
     // List of all Thing Type UIDs
     public static final ThingTypeUID THING_TYPE_SMARTERCOFFEE_MACHINE = new ThingTypeUID(BINDING_ID, "coffeemachine");
 
-    // List of all Channel ids
-    public static final String CHANNEL_SMARTER_MACHINE_STATUS = "status";
-
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Sets
             .newHashSet(THING_TYPE_SMARTERCOFFEE_MACHINE);
+
+    public static final String CONFIG_PARAMETER_HOST = "host";
+    public static final String CONFIG_PARAMETER_PORT = "port";
+
+    // List of all Channel ids
+    public static final String CHANNEL_MACHINE_STATUS = "status";
 
 }

@@ -19,6 +19,12 @@
 				<description>The host address for the machine</description>
 				<default>192.168.1.4</default>
 			</parameter>
+			
+			<parameter name="port" type="integer" required="true">
+                <label>Machine Port</label>
+                <description>Connection port of the machine</description>
+                <default>2081</default>
+            </parameter>
 		</config-description>
 		
 	</thing-type>

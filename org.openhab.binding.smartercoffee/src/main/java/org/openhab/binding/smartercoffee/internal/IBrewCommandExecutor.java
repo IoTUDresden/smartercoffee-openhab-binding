@@ -3,8 +3,26 @@ package org.openhab.binding.smartercoffee.internal;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * The {@link IBrewCommandExecutor} is responsible for invoking commands, which are
+ * sent to ibrew.
+ *
+ * @author Nikson Kanti Paul - Initial contribution
+ *
+ */
 public class IBrewCommandExecutor {
+    private final Logger logger = LoggerFactory.getLogger(IBrewCommandExecutor.class);
+
     private String host = "192.168.1.4";
+    private int port = 2081;
+
+    public IBrewCommandExecutor(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
 
     private String send(String command) {
         Process p;
@@ -14,6 +32,8 @@ public class IBrewCommandExecutor {
             if (host != null) {
                 command = appendHost(command);
             }
+
+            logger.debug("Executing command: " + command);
 
             p = Runtime.getRuntime().exec(command);
             p.waitFor();
@@ -25,25 +45,25 @@ public class IBrewCommandExecutor {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         return output.toString();
     }
 
     private String appendHost(String cmd) {
-        return String.format("%s %s", cmd, host);
+        return String.format("%s %s:%d", cmd, host, port);
     }
 
     public CommandResponse getStatus() {
         CommandResponse cr = new CommandResponse();
+        cr.setResponse("Offline");
         cr.setRawdata(this.send("ibrew shortstatus"));
         if (cr.getRawdata().contains("ready")) {
             cr.setResponse("Ready");
             cr.setStatus(true);
         } else if (cr.getRawdata().contains("refused")) {
-            cr.setResponse("Offline");
-            cr.setStatus(true);
+            cr.setStatus(false);
         } else {
             cr.setStatus(false);
         }
