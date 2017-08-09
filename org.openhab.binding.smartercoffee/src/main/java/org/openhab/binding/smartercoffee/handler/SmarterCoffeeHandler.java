@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.smartercoffee.handler;
 
-import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.CHANNEL_MACHINE_STATUS;
+import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.*;
 
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -69,7 +69,15 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
         if (channelUID.getId().equals(CHANNEL_MACHINE_STATUS)) {
             checkStatus();
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_BREW)) {
+            logger.info("ToDo: " + command.toFullString());
+
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_USE_BEANS)) {
+            // ToDo
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_NO_OF_CUPS)) {
+            // ToDo
         }
+
     }
 
     private void checkStatus() {

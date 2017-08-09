@@ -35,5 +35,8 @@ public class SmarterCoffeeBindingConstants {
 
     // List of all Channel ids
     public static final String CHANNEL_MACHINE_STATUS = "status";
+    public static final String CHANNEL_COFFEE_NO_OF_CUPS = "no_of_cups";
+    public static final String CHANNEL_COFFEE_USE_BEANS = "use_beans";
+    public static final String CHANNEL_COFFEE_BREW = "brew";
 
 }
