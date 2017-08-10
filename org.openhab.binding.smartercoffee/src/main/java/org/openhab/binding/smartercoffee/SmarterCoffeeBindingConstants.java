@@ -34,9 +34,14 @@ public class SmarterCoffeeBindingConstants {
     public static final String CONFIG_PARAMETER_PORT = "port";
 
     // List of all Channel ids
-    public static final String CHANNEL_MACHINE_STATUS = "status";
-    public static final String CHANNEL_COFFEE_NO_OF_CUPS = "no_of_cups";
-    public static final String CHANNEL_COFFEE_USE_BEANS = "use_beans";
-    public static final String CHANNEL_COFFEE_BREW = "brew";
+    public static final String CHANNEL_MACHINE_STATUS = "machine_grp#status";
+    public static final String CHANNEL_MACHINE_MODE = "machine_grp#mode";
+    public static final String CHANNEL_COFFEE_USE_BEANS = "coffee_grp#use_beans";
+    public static final String CHANNEL_COFFEE_NO_OF_CUPS = "coffee_grp#no_of_cups";
+    public static final String CHANNEL_COFFEE_HOTPLATE = "coffee_grp#hotplate";
+    public static final String CHANNEL_COFFEE_HOTPLATE_TIMER = "coffee_grp#hotplate_timer";
+    public static final String CHANNEL_COFFEE_GRIND = "coffee_grp#grind";
+    public static final String CHANNEL_COFFEE_STRENGTH = "coffee_grp#strength";
+    public static final String CHANNEL_COFFEE_BREW = "coffee_grp#brew";
 
 }

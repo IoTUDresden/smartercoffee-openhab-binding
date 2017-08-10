@@ -47,7 +47,6 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
     @Override
     public void initialize() {
         logger.debug("Initializing thing {}", getThing().getUID());
-        super.initialize();
 
         updateStatus(ThingStatus.ONLINE);
         checkStatus();
@@ -69,13 +68,40 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
         if (channelUID.getId().equals(CHANNEL_MACHINE_STATUS)) {
             checkStatus();
-        } else if (channelUID.getId().equals(CHANNEL_COFFEE_BREW)) {
-            logger.info("ToDo: " + command.toFullString());
-
+        } else if (channelUID.getId().equals(CHANNEL_MACHINE_MODE)) {
+            // logger.info(ibrew.getMode().getRawdata());
         } else if (channelUID.getId().equals(CHANNEL_COFFEE_USE_BEANS)) {
-            // ToDo
+            logger.debug("Use beans item changed: " + command.toString());
+            ibrew.useBeans();
+
         } else if (channelUID.getId().equals(CHANNEL_COFFEE_NO_OF_CUPS)) {
+            logger.debug("Cup item changed: " + command.toString());
+            ibrew.setNumber_of_cups(Integer.valueOf(command.toString()));
+            logger.info("cups: " + ibrew.getNumber_of_cups());
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_HOTPLATE)) {
             // ToDo
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_HOTPLATE_TIMER)) {
+            logger.debug("Hotplate item changed: " + command.toString());
+            ibrew.setHotplate_timer(Integer.valueOf(command.toString()));
+            logger.info("hotplate timer: " + ibrew.getHotplate_timer());
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_GRIND)) {
+            logger.debug("Grind item changed: " + command.toString());
+            if (command.toString().toUpperCase().equals("ON")) {
+                ibrew.setGrind_state(true);
+            } else {
+                ibrew.setGrind_state(false);
+            }
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_STRENGTH)) {
+            logger.debug("Strength item changed: " + command.toString());
+            ibrew.setStrength(command.toString().toLowerCase());
+        } else if (channelUID.getId().equals(CHANNEL_COFFEE_BREW)) {
+            logger.debug("Start-Cofffee item changed: " + command.toString());
+            // send makeCoffee command
+            if (command.toString().toUpperCase().equals("ON")) {
+                ibrew.makeCoffee();
+            } else {
+                ibrew.stopCoffee();
+            }
         }
 
     }
