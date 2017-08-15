@@ -1,14 +1,14 @@
 # SmarterCoffee Binding
 
-
 ## Supported Things
 
 * SmarterCoffee appliance  
 
-
 ## Binding Configuration
 
 ## Thing Configuration
+
+* Coffee machine (required: host, port) 
 
 ## Channels
 

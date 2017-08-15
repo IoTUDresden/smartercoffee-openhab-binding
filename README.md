@@ -1,5 +1,8 @@
-SmarterCoffee OpenHAB Binding
+SmarterCoffee OpenHAB Binding 
 ===
+
+Pure openhab binding using iBrew as command interpreter. This is written for **an experimental purpose**. Initially it was planned to write a pure java-binding. 
+
 
 * See: [How to create openHAB binding](http://docs.openhab.org/developers/development/bindings.html#setup-and-run-the-binding)
 
@@ -27,4 +30,12 @@ Or you can import the folder into workspace using eclipse
 	</feature>
 ```
 
+### Requirement:  
 
+* [iBrew](https://github.com/Tristan79/iBrew#linux), (build and link `ibrew` to `/usr/local/bin/ibrew` to access it from anywhere)    
+* Bonjour/Avahi (zero-conf)   
+
+# Issues:  
+
+1. iBrew was unable to discover the smartercoffee machine via Bonjour/Avahi, however the machine is reachable in local network. 
+   
