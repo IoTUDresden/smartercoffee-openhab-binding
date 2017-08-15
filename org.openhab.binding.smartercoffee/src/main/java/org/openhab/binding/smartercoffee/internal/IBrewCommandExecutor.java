@@ -67,11 +67,11 @@ public class IBrewCommandExecutor {
     public CommandResponse getStatus() {
         CommandResponse cr = new CommandResponse();
         cr.setResponse("Offline");
-        cr.setRawdata(this.send("ibrew shortstatus"));
+        cr.setRawdata(this.send("ibrew status"));
         if (cr.getRawdata().contains("ready")) {
             cr.setResponse("Ready");
             cr.setStatus(true);
-        } else if (cr.getRawdata().contains("refused")) {
+        } else if (cr.getRawdata().contains("error")) {
             cr.setStatus(false);
         } else {
             cr.setStatus(false);
@@ -104,7 +104,7 @@ public class IBrewCommandExecutor {
         CommandResponse response = new CommandResponse();
         response.setStatus(true);
 
-        // example command: ibrew 1 5 on weak brew
+        // example command: ibrew brew 1 5 on weak
         String cmdStr = String.format("ibrew brew %d %d %s %s", getNumber_of_cups(), getHotplate_timer(),
                 isGrind_state() ? "on" : "off", getStrength());
 

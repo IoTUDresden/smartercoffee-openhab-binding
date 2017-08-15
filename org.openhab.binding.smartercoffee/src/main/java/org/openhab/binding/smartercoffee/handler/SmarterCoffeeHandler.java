@@ -17,6 +17,7 @@ import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
+import org.openhab.binding.smartercoffee.internal.CommandResponse;
 import org.openhab.binding.smartercoffee.internal.IBrewCommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,12 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
             checkStatus();
         } else if (channelUID.getId().equals(CHANNEL_MACHINE_MODE)) {
             // logger.info(ibrew.getMode().getRawdata());
+        } else if (channelUID.getId().equals(CHANNEL_GENERAL_REFRESH)) {
+            logger.debug("Getting status: " + command.toString());
+            if (command.toString().toUpperCase().equals("ON")) {
+                checkStatus();
+                // updateState(CHANNEL_GENERAL_REFRESH, OnOffType.OFF);
+            }
         } else if (channelUID.getId().equals(CHANNEL_COFFEE_USE_BEANS)) {
             logger.debug("Use beans item changed: " + command.toString());
             ibrew.useBeans();
@@ -107,10 +114,36 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
     }
 
     private void checkStatus() {
-        if (ibrew.getStatus().isStatus()) {
+        CommandResponse response = ibrew.getStatus();
+        if (response.isStatus()) {
             updateState(CHANNEL_MACHINE_STATUS, new StringType("ONLINE"));
+            parseStatusResponse(response.getRawdata());
         } else {
             updateState(CHANNEL_MACHINE_STATUS, new StringType("OFFLINE"));
+        }
+    }
+
+    private void parseStatusResponse(String data) {
+
+        // FixMe:
+        try {
+            // ready carafe on base, water half, setting: brew 1 cup of weak beans coffee, carafe required, carafe mode
+
+            for (String line : data.split("\n")) {
+                if (!line.isEmpty() && line.startsWith("ready")) {
+
+                    String[] block = line.split(",");
+
+                    String water_level = block[1].replace("water", "");
+                    updateState(CHANNEL_GENERAL_WATER_LEVEL, new StringType(water_level));
+
+                    String current_setting = block[2].replace("setting: brew", "");
+                    updateState(CHANNEL_GENERAL_SETTINGS, new StringType(current_setting));
+                }
+            }
+
+        } catch (IndexOutOfBoundsException e) {
+            logger.error(e.getMessage(), e);
         }
     }
 }

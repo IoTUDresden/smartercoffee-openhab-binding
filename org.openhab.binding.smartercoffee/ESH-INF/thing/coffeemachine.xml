@@ -9,7 +9,7 @@
 		<description>Thing for SmarterCoffee appliances </description>
 
 		<channel-groups>
-			<channel-group id="machine_grp" typeId="machine_grp" />
+			<channel-group id="general_grp" typeId="general_grp" />
 			<channel-group id="coffee_grp" typeId="coffee_grp" />
 		</channel-groups>
 
@@ -29,12 +29,15 @@
 
 	</thing-type>
 
-	<channel-group-type id="machine_grp">
+	<channel-group-type id="general_grp">
 		<label>General</label>
 		<description>General Channels</description>
 		<channels>
 			<channel id="status" typeId="status" />
-			<!--  <channel id="mode" typeId="mode" />   -->
+			<channel id="current_settings" typeId="current_settings" />
+			<channel id="water_level" typeId="water_level" />
+			<!-- <channel id="mode" typeId="mode" /> -->
+			<channel id="refresh" typeId="refresh" />
 		</channels>
 	</channel-group-type>
 
@@ -44,7 +47,7 @@
 		<channels>
 			<channel id="use_beans" typeId="use_beans" />
 			<channel id="no_of_cups" typeId="no_of_cups" />
-			<!-- <channel id="hotplate" typeId="hotplate" />  -->
+			<!-- <channel id="hotplate" typeId="hotplate" /> -->
 			<channel id="hotplate_timer" typeId="hotplate_timer" />
 			<channel id="grind" typeId="grind" />
 			<channel id="strength" typeId="strength" />
@@ -61,6 +64,28 @@
 		<state readOnly="true" />
 	</channel-type>
 
+	<channel-type id="current_settings">
+		<item-type>String</item-type>
+		<label>Current Settings</label>
+		<description>Default settings of device</description>
+		<category>General</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="water_level">
+		<item-type>String</item-type>
+		<label>Water Level</label>
+		<description>Information about water in coffee machine</description>
+		<category>General</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="refresh">
+		<item-type>Switch</item-type>
+		<label>Refresh</label>
+		<description>Poll all settings from device</description>
+		<category>General</category>
+	</channel-type>
 
 	<channel-type id="mode">
 		<item-type>String</item-type>
