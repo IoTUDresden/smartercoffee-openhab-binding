@@ -37,7 +37,7 @@
 			<channel id="current_settings" typeId="current_settings" />
 			<channel id="water_level" typeId="water_level" />
 			<!-- <channel id="mode" typeId="mode" /> -->
-			<channel id="refresh" typeId="refresh" />
+			<!--  <channel id="refresh" typeId="refresh" />  -->
 		</channels>
 	</channel-group-type>
 

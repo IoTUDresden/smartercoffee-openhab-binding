@@ -10,6 +10,9 @@ package org.openhab.binding.smartercoffee.handler;
 
 import static org.openhab.binding.smartercoffee.SmarterCoffeeBindingConstants.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
@@ -32,6 +35,8 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
     private final Logger logger = LoggerFactory.getLogger(SmarterCoffeeHandler.class);
 
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+
     // ibrew command interpreter and executor
     private IBrewCommandExecutor ibrew;
 
@@ -49,8 +54,18 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
     public void initialize() {
         logger.debug("Initializing thing {}", getThing().getUID());
 
-        updateStatus(ThingStatus.ONLINE);
-        checkStatus();
+        executor.submit(() -> {
+            try {
+                while (checkStatus() != true) {
+                    logger.debug("Connecting to smartercoffee machine .....");
+                    Thread.sleep(250);
+                }
+
+                updateStatus(ThingStatus.ONLINE);
+            } catch (InterruptedException ie) {
+                logger.error(ie.getMessage(), ie);
+            }
+        });
 
         logger.debug("Thing {} initialized {}", getThing().getUID(), getThing().getStatus());
     }
@@ -58,6 +73,7 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
     @Override
     public void dispose() {
         logger.debug("Thing {} disposed", getThing().getUID());
+        executor.shutdownNow();
     }
 
     @Override
@@ -113,7 +129,7 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
 
     }
 
-    private void checkStatus() {
+    private boolean checkStatus() {
         CommandResponse response = ibrew.getStatus();
         if (response.isStatus()) {
             updateState(CHANNEL_MACHINE_STATUS, new StringType("ONLINE"));
@@ -121,6 +137,8 @@ public class SmarterCoffeeHandler extends BaseThingHandler {
         } else {
             updateState(CHANNEL_MACHINE_STATUS, new StringType("OFFLINE"));
         }
+
+        return response.isStatus();
     }
 
     private void parseStatusResponse(String data) {
