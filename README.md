@@ -35,7 +35,12 @@ Or you can import the folder into workspace using eclipse
 * [iBrew](https://github.com/Tristan79/iBrew#linux), (build and link `ibrew` to `/usr/local/bin/ibrew` to access it from anywhere)    
 * ~~Bonjour/Avahi (zero-conf)~~    
 
-# Issues:  
+### Issues:  
 
-1. iBrew was unable to discover the smartercoffee machine via Bonjour/Avahi, however the machine is reachable in local network. 
+1. iBrew was unable to discover the smartercoffee machine via Bonjour/Avahi, however the machine is reachable in local network.  
+
+### Demo:   
+  
+![Demo](./sm.png)
+
    
