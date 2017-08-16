@@ -33,7 +33,7 @@ Or you can import the folder into workspace using eclipse
 ### Requirement:  
 
 * [iBrew](https://github.com/Tristan79/iBrew#linux), (build and link `ibrew` to `/usr/local/bin/ibrew` to access it from anywhere)    
-* Bonjour/Avahi (zero-conf)   
+* ~~Bonjour/Avahi (zero-conf)~~    
 
 # Issues:  
 
